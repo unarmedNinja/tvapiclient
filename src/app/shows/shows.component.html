@@ -1,4 +1,17 @@
 <h2>Shows</h2>
+<div>
+  <label>Show name:
+    <input #showName />
+  </label>
+  <label>Show id:
+    <input #showId />
+  </label>
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="add(showName.value, showId.value); showName.value=''">
+    add
+  </button>
+</div>
+
 <ul class="shows">
   <li *ngFor="let show of shows">
     <span class="badge">{{show.id}}</span> {{show.name}}

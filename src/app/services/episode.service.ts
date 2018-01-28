@@ -6,11 +6,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Show } from "../models/show";
+import { Episode } from "../models/episode";
 import { MessageService } from './message.service';
 
 @Injectable()
-export class ShowService {
+export class EpisodeService {
 
   private showsDomain = "http://cloudvps:8888/tvapp/tv";
   //private showsDomain = 'http://localhost:8080/tvapp/tv/';  // URL to web api
@@ -18,29 +18,33 @@ export class ShowService {
   private addShowUrl = this.showsDomain + "/show/add";
   private tokenUrl = this.showsDomain + "/token";
   
+  private episodesUrl = this.showsDomain + "/shows/recent";
+  
 
   private token : String = null;;
 
   constructor( private http: HttpClient, private messageService: MessageService) { }
 
-  getShowsTest() : Observable<Show[]> {
-    let shows : Show[] = [
-      { id : 1, name : "Arrow"},
-      { id : 2, name : "Gotham"}
-    ]
+  getEpisodesTest() : Observable<Episode[]> {
+    let e = new Episode();
+    e.id = 1;
+    e.showid = 1;
+    e.episodeName = "Test 1";
+    let episodes : Episode[];
+    episodes.push(e);
   
     this.messageService.add('ShowService: fetched shows');
-    return of(shows);
+    return of(episodes);
   }
   
-  getShows() : Observable<Show[]> {
+  getShows() : Observable<Episode[]> {
   
     this.messageService.add('ShowService: fetched shows');
 
-    return this.http.get<Show[]>(this.showsUrl)
+    return this.http.get<Episode[]>(this.showsUrl)
     .pipe(
       tap(shows => this.log(`fetched shows`)),
-      catchError(this.handleError<Show[]>('getShows', []))
+      catchError(this.handleError<Episode[]>('getShows', []))
     );
 
   }
@@ -54,13 +58,15 @@ export class ShowService {
     return this.token;
   }
 
-  /** POST: add a new hero to the server */
-  addShow (show: Show): Observable<Show> {
-  return this.http.post<Show>(this.addShowUrl, show).pipe(
-    tap((show: Show) => this.log(`added show w/ id=${show.id}`)),
-    catchError(this.handleError<Show>('addShow'))
-  );
-}
+  getRecentEpisodes() : Observable<Episode[]> {
+    this.messageService.add('EpisodeService: fetched recent episodes');
+
+    return this.http.get<Episode[]>(this.episodesUrl)
+    .pipe(
+      tap(shows => this.log(`pipe fetched episdoes`)),
+      catchError(this.handleError<Episode[]>('getRecentEpisodes', []))
+    );
+  }
 
   private log(message: string) {
     this.messageService.add('ShowService: ' + message);

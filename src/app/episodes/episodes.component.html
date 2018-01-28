@@ -1,0 +1,9 @@
+<p>
+  episodes works!
+</p>
+
+<ul class="shows">
+  <li *ngFor="let episode of episodes">
+    <span class="badge">{{episode.id}}</span> {{episode.episodeName}} ({{ episode.showId }})
+  </li>
+</ul>
