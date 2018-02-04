@@ -8,20 +8,21 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Episode } from "../models/episode";
 import { MessageService } from './message.service';
+import { Token } from '../models/token';
 
 @Injectable()
 export class EpisodeService {
 
-  private showsDomain = "http://cloudvps:8888/tvapp/tv";
-  //private showsDomain = 'http://localhost:8080/tvapp/tv/';  // URL to web api
+  //private showsDomain = "http://cloudvps:8888/tvapp/tv";
+  private showsDomain = 'http://localhost:8080/tvapp/tv';  // URL to web api
   private showsUrl = this.showsDomain + '/shows';  // URL to web api
   private addShowUrl = this.showsDomain + "/show/add";
   private tokenUrl = this.showsDomain + "/token";
   
   private episodesUrl = this.showsDomain + "/shows/recent";
-  
+  private addEpisodesUrl = this.showsDomain + "/getEpisodes/";
 
-  private token : String = null;;
+  private token : Token;
 
   constructor( private http: HttpClient, private messageService: MessageService) { }
 
@@ -49,13 +50,20 @@ export class EpisodeService {
 
   }
 
-  getToken(): String {
+  getToken(): Observable<Token> {
     if(!this.token){
-      this.http.get<String>(this.tokenUrl).pipe(
-        tap(t => this.token = t)
+      console.log("episode service getting token");
+      return this.http.get<Token>(this.tokenUrl).pipe(
+        tap(t => this.token = t),
+        catchError(this.handleError<Token>('token failed'))
       )
     }
-    return this.token;
+    else{
+      console.log("episode service using existing token");
+      console.log("EPISODE TOKEN: ", this.token);
+      return of(this.token);
+    }
+        
   }
 
   getRecentEpisodes() : Observable<Episode[]> {
@@ -67,6 +75,15 @@ export class EpisodeService {
       catchError(this.handleError<Episode[]>('getRecentEpisodes', []))
     );
   }
+
+  
+  addEpisodes (showId: number): Observable<Episode[]> {
+      this.getToken();
+      return this.http.get<Episode[]>(this.addEpisodesUrl + showId).pipe(
+        tap((data) => this.log(`retrieved episodes w/ id=${data}`)),
+        catchError(this.handleError<Episode[]>('addEpisodes'))
+      );
+    }
 
   private log(message: string) {
     this.messageService.add('ShowService: ' + message);

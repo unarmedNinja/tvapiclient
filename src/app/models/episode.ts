@@ -1,6 +1,7 @@
 export class Episode {
     id: number;
     showid: number;
+    showName: string;
     episodeName: string;
     absoluteNumber: number;
     airedEpisodeNumber: number;

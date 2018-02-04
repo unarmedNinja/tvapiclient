@@ -28,7 +28,12 @@ export class ShowsComponent implements OnInit {
   }
 
   getShows(): void {
-    this.showService.getShows().subscribe(shows => this.shows = shows);;
+    this.showService.getShows().subscribe(shows => this.showComplete(shows));
+  }
+
+  showComplete(shows): void {    
+    this.shows = shows; 
+    localStorage.setItem("shows", JSON.stringify(shows));
   }
 
   add(name: string, id : number): void {

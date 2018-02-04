@@ -2,8 +2,21 @@
   episodes works!
 </p>
 
+<div>
+    <label>Show id:
+      <input #eShowId />
+    </label>
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button (click)="addEpisodes(eShowId.value);">
+      add
+    </button>
+  </div>
+
 <ul class="shows">
   <li *ngFor="let episode of episodes">
-    <span class="badge">{{episode.id}}</span> {{episode.episodeName}} ({{ episode.showId }})
+    <span class="badge">{{ getShowName(episode.showid) }}</span> {{episode.episodeName}} ({{ episode.formattedDate }})
   </li>
 </ul>
+<div>
+ EPISODES: {{ episodes }}
+</div>
