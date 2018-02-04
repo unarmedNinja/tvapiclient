@@ -1,12 +1,24 @@
-<div style="text-align:center">
-  <h1>
-    Welcome to TV App
-  </h1>  
+<mat-sidenav-container class="main-container">
+  <mat-sidenav #sidenav class="main-sidenav">
+    <nav>
+        <a routerLink="/shows">Shows</a>
+        <br>
+        <a routerLink="/recent">Recent Episodes</a>
+      </nav>    
+  </mat-sidenav>  
+
+  <div class="main-sidenav-content">
+    <mat-toolbar color="primary">
+      <button mat-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      TV App
+    </mat-toolbar>
+    <br/>
+    <div style="clear:both">some content</div>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+      <app-messages></app-messages>
+  </div>
 </div>
-<nav>
-  <a routerLink="/shows">Shows</a>
-  <br>
-  <a routerLink="/recent">Recent Episodes</a>
-</nav>
-<router-outlet></router-outlet>
-<app-messages></app-messages>
+</mat-sidenav-container>
