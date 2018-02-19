@@ -19,12 +19,7 @@ export class ShowsComponent implements OnInit {
   constructor(private showService : ShowService) { }
 
   ngOnInit() {
-    this.setToken();
     this.getShows();
-  }
-
-  setToken() : void {
-    this.showService.getToken();
   }
 
   getShows(): void {

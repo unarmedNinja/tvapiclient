@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
-
+import { environment } from '../../environments/environment';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Show } from "../models/show";
@@ -11,12 +11,10 @@ import { MessageService } from './message.service';
 
 @Injectable()
 export class ShowService {
-
-  private showsDomain = "http://cloudvps:8888/tvapp/tv";
-  //private showsDomain = 'http://localhost:8080/tvapp/tv/';  // URL to web api
-  private showsUrl = this.showsDomain + '/shows';  // URL to web api
-  private addShowUrl = this.showsDomain + "/show/add";
-  private tokenUrl = this.showsDomain + "/token";
+  
+  private showsUrl = environment.api_url + '/shows';  // URL to web api
+  private addShowUrl = environment.api_url + "/show/add";
+  private tokenUrl = environment.api_url + "/token";
   
 
   private token : String = null;;
@@ -45,14 +43,6 @@ export class ShowService {
 
   }
 
-  getToken(): String {
-    if(!this.token){
-      this.http.get<String>(this.tokenUrl).pipe(
-        tap(t => this.token = t)
-      )
-    }
-    return this.token;
-  }
 
   /** POST: add a new hero to the server */
   addShow (show: Show): Observable<Show> {

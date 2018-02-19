@@ -1,8 +1,14 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Episode } from "../models/episode";
 import { EpisodeService } from "../services/episode.service";
+
+
 import { Show } from "../models/show";
+
+
 import * as _ from 'lodash';
+
+
 
 @Component({
   selector: 'app-episodes',
@@ -14,27 +20,35 @@ export class EpisodesComponent implements OnInit {
   episodes : Episode[];
   episodeString : string;
   shows : Show[];
+  sortedEpisodes: _.Dictionary<Episode[]>;
+  episodeKeys : String[];
 
   constructor(private episodeService : EpisodeService) {     
   }
 
-  ngOnInit() {
-    this.setToken();
+  ngOnInit() {    
     this.getEpisodes();
   }
 
   getEpisodes(): void {
-        
-    this.episodeService.getRecentEpisodes().subscribe(ep => this.episodes = ep);
+    //  this.episodeService.getEpisodesTest().subscribe(ep => this.episodes = ep);  
+    this.episodeService.getRecentEpisodes().subscribe(ep => this.sortEpisodes(ep));
+  }
+
+
+  sortEpisodes(episodes: Episode[]) : void {
+      var eps: _.Dictionary<Episode[]> = _.groupBy(episodes, 'formattedDate');
+      console.log("sorted: ", eps);
+      this.episodes = episodes;
+      this.episodeKeys = Object.keys(eps).sort();
+      this.sortedEpisodes = eps;
   }
 
   addEpisodes(showId : number) : void {
     this.episodeService.addEpisodes(showId).subscribe(episodes => console.log("retreieved episodes: ", episodes));
   }
 
-  setToken() : void {
-    this.episodeService.getToken().subscribe(t => console.log("got token: ", t));
-  }
+
 
   setEpisodes(episodes) : void {
     this.episodes = episodes;          
@@ -60,5 +74,7 @@ export class EpisodesComponent implements OnInit {
        return showId.toString();
     } 
   }
+
+
 }
  

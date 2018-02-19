@@ -1,0 +1,9 @@
+.episodesList {
+    
+    padding: 2rem;
+}
+
+tr.odd {
+    background-color: #efefef;
+    margin-bottom: 2rem;
+}

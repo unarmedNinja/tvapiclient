@@ -7,13 +7,15 @@ import {
   MatSidenavModule,
   MatListModule,
   MatIconModule,
-  MatButtonModule
+  MatButtonModule,
+  MatTableModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ShowsComponent } from './shows/shows.component';
 import { ShowService } from './services/show.service';
 import { EpisodeService } from './services/episode.service';
+import { TokenService } from './services/token.service';
 
 import { MessagesComponent } from './messages/messages.component';
 import { MessageService } from './services/message.service';
@@ -37,9 +39,10 @@ import { EpisodesComponent } from './episodes/episodes.component';
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTableModule
   ],
-  providers: [ShowService, MessageService, EpisodeService],
+  providers: [ShowService, MessageService, EpisodeService, TokenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,11 +12,17 @@
     </button>
   </div>
 
-<ul class="shows">
-  <li *ngFor="let episode of episodes">
-    <span class="badge">{{ getShowName(episode.showid) }}</span> {{episode.episodeName}} ({{ episode.formattedDate }})
-  </li>
-</ul>
-<div>
- EPISODES: {{ episodes }}
-</div>
+<table class="episodeList">
+  <tr class="">
+    <th>Date</th>
+    <th>Show</th>
+  </tr>
+  <tr *ngFor="let key of episodeKeys; let odd=odd; let even=even" [ngClass]="{ odd: odd, even:even}" class="">
+    <td class="">{{ key }}</td>
+    <td class="">
+      <div *ngFor="let ep of sortedEpisodes[key]">
+      {{ getShowName(ep.showid) }} ({{ ep.airedSeason }}x{{ ep.airedEpisodeNumber }}) - {{ ep.episodeName }}
+      </div>
+    </td>
+  </tr>
+</table>
