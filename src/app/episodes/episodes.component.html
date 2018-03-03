@@ -12,6 +12,21 @@
     </button>
   </div>
 
+  <div>    
+    <table>
+      <tr>
+        <td *ngFor="let ed of episodeDays">
+          {{ ed.day }}
+          <div *ngFor="let ep of ed.episodes">
+            {{ getShowName(ep.showid) }} ({{ ep.airedSeason }}x{{ ep.airedEpisodeNumber }}) - {{ ep.episodeName }}
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+<hr>
+
 <table class="episodeList">
   <tr class="">
     <th>Date</th>

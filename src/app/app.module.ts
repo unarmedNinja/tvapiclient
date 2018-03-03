@@ -19,7 +19,7 @@ import { TokenService } from './services/token.service';
 
 import { MessagesComponent } from './messages/messages.component';
 import { MessageService } from './services/message.service';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { EpisodesComponent } from './episodes/episodes.component';
 
 
