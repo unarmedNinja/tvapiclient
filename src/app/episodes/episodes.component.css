@@ -7,3 +7,21 @@ tr.odd {
     background-color: #efefef;
     margin-bottom: 2rem;
 }
+
+table.calendar, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    vertical-align: top;
+}
+
+.dateLabel {
+    text-align: center;
+}
+
+.showName {
+    font-weight: bold;
+}
+
+.episodeDesc {
+    font-size: 0.9em;
+}

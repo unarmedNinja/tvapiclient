@@ -25,7 +25,9 @@ export class EpisodeService {
   
   private episodesUrl = environment.api_url + "/shows/recent";
   private addEpisodesUrl = environment.api_url + "/getEpisodes/";
-  
+  private deleteEpisodesUrl = environment.api_url + "/shows/delete/";
+
+
   constructor( 
     private http: HttpClient, 
     private messageService: MessageService, 
@@ -95,6 +97,10 @@ export class EpisodeService {
         catchError(this.handleError<Episode[]>('addEpisodes'))
       );
       */
+    }
+
+    deleteEpisodes(showId: number) : Observable<number> {
+      return this.http.delete<number>(this.deleteEpisodesUrl + showId, {});
     }
 
   private log(message: string) {

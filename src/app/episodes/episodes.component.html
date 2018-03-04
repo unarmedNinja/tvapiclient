@@ -10,21 +10,80 @@
     <button (click)="addEpisodes(eShowId.value);">
       add
     </button>
+
+    <button (click)="deleteEpisode(eShowId.value);">
+        delete
+      </button>
   </div>
 
   <div>    
-    <table>
+    <table class="calendar">
       <tr>
-        <td *ngFor="let ed of episodeDays">
-          {{ ed.day }}
+        <th>Sunday</th>
+        <th>Monday</th>
+        <th>Tuesday</th>
+        <th>Wednesday</th>
+        <th>Thursday</th>
+        <th>Friday</th>
+        <th>Saturday</th>
+      </tr>
+      <tr>
+        <td *ngFor="let ed of lastWeekEpisodes">
+          <span class="dateLabel">{{ ed.day }}</span>
           <div *ngFor="let ep of ed.episodes">
-            {{ getShowName(ep.showid) }} ({{ ep.airedSeason }}x{{ ep.airedEpisodeNumber }}) - {{ ep.episodeName }}
+            <span class="showName">{{ getShowName(ep.showid) }}</span>
+            <br/>
+            <span class="episodeDesc">({{ ep.airedSeason }}x{{ ep.airedEpisodeNumber }}) - {{ ep.episodeName }}</span>
           </div>
         </td>
       </tr>
+      <tr>
+        <td *ngFor="let ed of episodeDays">
+            <span class="dateLabel">{{ ed.day }}</span>
+            <div *ngFor="let ep of ed.episodes">
+              <span class="showName">{{ getShowName(ep.showid) }}</span>
+              <br/>
+              <span class="episodeDesc">({{ ep.airedSeason }}x{{ ep.airedEpisodeNumber }}) - {{ ep.episodeName }}</span>
+            </div>
+        </td>
+      </tr>
+      <tr>
+          <td *ngFor="let ed of nextWeekEpisodes">
+              <span class="dateLabel">{{ ed.day }}</span>
+              <div *ngFor="let ep of ed.episodes">
+                <span class="showName">{{ getShowName(ep.showid) }}</span>
+                <br/>
+                <span class="episodeDesc">({{ ep.airedSeason }}x{{ ep.airedEpisodeNumber }}) - {{ ep.episodeName }}</span>
+              </div>
+          </td>
+        </tr>
     </table>
   </div>
 
+  <!--
+  <mat-grid-list cols="7">
+    <mat-grid-tile>Sunday</mat-grid-tile>
+    <mat-grid-tile>Monday</mat-grid-tile>
+    <mat-grid-tile>Tuesday</mat-grid-tile>
+    <mat-grid-tile>Wednesday</mat-grid-tile>
+    <mat-grid-tile>Thursday</mat-grid-tile>
+    <mat-grid-tile>Friday</mat-grid-tile>
+    <mat-grid-tile>Saturday</mat-grid-tile>
+    
+    <mat-grid-tile *ngFor="let ed of episodeDays" rowHeight="1:3">
+      <span style="clear:both">{{ed.day}}</span>
+      <br/>
+      <mat-list>
+      <mat-list-item *ngFor="let ep of ed.episodes">
+          {{ getShowName(ep.showid) }}
+          <br/>
+           ({{ ep.airedSeason }}x{{ ep.airedEpisodeNumber }}) - {{ ep.episodeName }}
+      </mat-list-item>
+      </mat-list>
+    </mat-grid-tile>
+  
+  </mat-grid-list>
+-->
 <hr>
 
 <table class="episodeList">

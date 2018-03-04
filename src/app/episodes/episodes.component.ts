@@ -24,6 +24,9 @@ export class EpisodesComponent implements OnInit {
   episodeKeys : String[];
   week: String[];
   episodeDays: EpisodeDay[];
+  lastWeekEpisodes : EpisodeDay[];
+  thisWeekEpisodes : EpisodeDay[];
+  nextWeekEpisodes: EpisodeDay[];
 
   constructor(private episodeService : EpisodeService) {     
   }
@@ -54,7 +57,9 @@ export class EpisodesComponent implements OnInit {
     this.episodeService.addEpisodes(showId).subscribe(episodes => console.log("retreieved episodes: ", episodes));
   }
 
-
+  deleteEpisode(showId: number) : void {
+    this.episodeService.deleteEpisodes(showId).subscribe(res => console.log("deleted episodes: ", res));
+  }
 
   setEpisodes(episodes) : void {
     this.episodes = episodes;          
@@ -82,50 +87,36 @@ export class EpisodesComponent implements OnInit {
   }
 
   setWeek() : void {   
-    
     var StartDay = moment().startOf('week');
     var day=StartDay.format("dddd, MMMM Do ");
 
-    console.log("setting week: ", day); 
+    var StartDay2 = moment().startOf('week');
+    
+    this.week[0] = StartDay2.format("dddd, MMMM Do");
+    this.episodeDays = this.getEpisodesForWeek(0);
+    this.lastWeekEpisodes = this.getEpisodesForWeek(-7);
+    this.nextWeekEpisodes = this.getEpisodesForWeek(7);
 
-    var day2 = StartDay.add(1,'d').format("dddd, MMMM Do ");
-    console.log("setting week day2: ", day2); 
-    var day3 = StartDay.add(1,'d').format("dddd, MMMM Do ");
-    var day4 = StartDay.add(1,'d').format("dddd, MMMM Do ");
-    var day5 = StartDay.add(1,'d').format("dddd, MMMM Do ");
-    var day6 = StartDay.add(1,'d').format("dddd, MMMM Do ");
-    var day7 = StartDay.add(1,'d').format("dddd, MMMM Do ");
-
-//    this.episodeDays[0].day = day;
- //   this.episodeDays[0].episodes = this.sortedEpisodes[day.format("dddd, MMMM Do ")]
-
-  var StartDay2 = moment().startOf('week');
-  this.week[0] = StartDay2.format("dddd, MMMM Do");
-  this.episodeDays[0].day = StartDay2.format("dddd, MMMM Do");
-  this.episodeDays[0].episodes = this.sortedEpisodes[StartDay2.format("YYYY-MM-DD")];
-
-  for(var i = 1; i<7;i++){
-    var aDay = StartDay2.add(1, 'd');
-    this.week[i] = aDay.format("dddd, MMMM Do");
-    this.episodeDays[i] = new EpisodeDay();
-    this.episodeDays[i].day = aDay.format("dddd, MMMM Do");
-    this.episodeDays[i].episodes = this.sortedEpisodes[aDay.format("YYYY-MM-DD")];
+    console.log(this.week);
   }
 
-/*
-    this.week[0] = day;    
-    this.week[1] = day2;
-    this.week[2] = day3;    
-    this.week[3] = day4;
-    this.week[4] = day5;
-    this.week[5] = day6;
-    this.week[6] = day7;
-    */
-    console.log(this.week);
+  getEpisodesForWeek(diff : number) : EpisodeDay[] {
+    var StartDay = moment().startOf('week');
+    var epWeek : EpisodeDay[] = [new EpisodeDay];
+    StartDay.add(diff, "d");
     
-    /*
+    epWeek[0].day = StartDay.format("MMMM Do");
+    epWeek[0].episodes = this.sortedEpisodes[StartDay.format("YYYY-MM-DD")];
 
-*/
+    for(var i = 1; i<7;i++){
+      StartDay.add(1, 'd');
+      epWeek[i] = new EpisodeDay();
+      epWeek[i].day = StartDay.format("MMMM Do");
+      epWeek[i].episodes = this.sortedEpisodes[StartDay.format("YYYY-MM-DD")];
+    }
+
+    console.log("EP WEEK: ", epWeek);
+    return epWeek;
   }
 
 }

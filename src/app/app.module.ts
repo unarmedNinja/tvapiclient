@@ -11,6 +11,8 @@ import {
   MatTableModule
 } from '@angular/material';
 
+import {MatGridListModule} from '@angular/material/grid-list';
+
 import { AppComponent } from './app.component';
 import { ShowsComponent } from './shows/shows.component';
 import { ShowService } from './services/show.service';
@@ -40,7 +42,8 @@ import { EpisodesComponent } from './episodes/episodes.component';
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule,
+    MatGridListModule
   ],
   providers: [ShowService, MessageService, EpisodeService, TokenService],
   bootstrap: [AppComponent]
