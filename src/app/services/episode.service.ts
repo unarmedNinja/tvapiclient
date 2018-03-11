@@ -26,7 +26,7 @@ export class EpisodeService {
   private episodesUrl = environment.api_url + "/shows/recent";
   private addEpisodesUrl = environment.api_url + "/getEpisodes/";
   private deleteEpisodesUrl = environment.api_url + "/shows/delete/";
-
+  private episodeUrl = environment.api_url + "/episodes/";
 
   constructor( 
     private http: HttpClient, 
@@ -73,6 +73,15 @@ export class EpisodeService {
     );
   }
 
+  getEpisodesByShowId(showId: number) : Observable<Episode[]> {    
+    return this.http.get<Episode[]>(this.episodeUrl + showId)
+    .pipe(
+      tap(shows => this.log('pipe fetched episdoes:' + JSON.stringify(shows))),
+      catchError(this.handleError<Episode[]>('getRecentEpisodes', []))
+    );
+  }
+
+
   getRequestOptions(token : Token) :HttpHeaders {
     let headers : HttpHeaders = new HttpHeaders(
       {
@@ -83,9 +92,9 @@ export class EpisodeService {
     return headers;
   }
 
-  addEpisodes (showId: number): Observable<Episode[]> {
+  addEpisodes (showId: number, page : number): Observable<Episode[]> {
     return this.tokenService.getToken()
-      .switchMap(token => this.http.get<Episode[]>(this.addEpisodesUrl + showId, {headers: this.getRequestOptions(token)})
+      .switchMap(token => this.http.get<Episode[]>(this.addEpisodesUrl + showId + "?page=" + page, {headers: this.getRequestOptions(token)})
         .pipe(
           tap((data) => this.log(`retrieved episodes w/ id=${data}`)),
           catchError(this.handleError<Episode[]>('addEpisodes'))

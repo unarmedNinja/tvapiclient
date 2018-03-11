@@ -1,0 +1,15 @@
+<table class="episodeList">
+  <tr class="">
+    <th>Show</th>
+    <th>Episode number</th>
+    <th>Episode name</th>
+    <th>First Aired</th>
+
+  </tr>
+  <tr *ngFor="let episode of episodes; let odd=odd; let even=even" [ngClass]="{ odd: odd, even:even}" class="">
+    <td class="">{{ episode.showId }}</td>
+    <td class="">{{ episode.absoluteNumber }} - {{ episode.airedSeason }}x{{ episode.airedEpisodeNumber }} </td>
+    <td class="">{{ episode.episodeName }}</td>
+    <td class="">{{ episode.formattedDate }}</td>
+  </tr>
+</table>

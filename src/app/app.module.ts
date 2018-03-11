@@ -23,6 +23,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { MessageService } from './services/message.service';
 import { AppRoutingModule } from './app-routing.module';
 import { EpisodesComponent } from './episodes/episodes.component';
+import { EpisodeComponent } from './episode/episode.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { EpisodesComponent } from './episodes/episodes.component';
     AppComponent,
     ShowsComponent,
     MessagesComponent,
-    EpisodesComponent
+    EpisodesComponent,
+    EpisodeComponent
   ],
   imports: [
     BrowserModule,

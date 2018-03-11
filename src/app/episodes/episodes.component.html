@@ -6,8 +6,11 @@
     <label>Show id:
       <input #eShowId />
     </label>
+    <label>page:
+      <input #ePageId value="1"/>
+    </label>
     <!-- (click) passes input value to add() and then clears the input -->
-    <button (click)="addEpisodes(eShowId.value);">
+    <button (click)="addEpisodes(eShowId.value, ePageId.value);">
       add
     </button>
 

@@ -45,7 +45,10 @@ export class EpisodesComponent implements OnInit {
 
 
   sortEpisodes(episodes: Episode[]) : void {
-      var eps: _.Dictionary<Episode[]> = _.groupBy(episodes, 'formattedDate');
+      var filteredList : Episode[] = _.filter(episodes, function(e: Episode) { 
+        return e.absoluteNumber > 0 && (moment().format("YYYY-MM-DD") !== e.formattedDate);
+      });
+      var eps: _.Dictionary<Episode[]> = _.groupBy(filteredList, 'formattedDate');
       console.log("sorted: ", eps);
       this.episodes = episodes;
       this.episodeKeys = Object.keys(eps).sort();
@@ -53,8 +56,8 @@ export class EpisodesComponent implements OnInit {
       this.setWeek();
   }
 
-  addEpisodes(showId : number) : void {
-    this.episodeService.addEpisodes(showId).subscribe(episodes => console.log("retreieved episodes: ", episodes));
+  addEpisodes(showId : number, page: number) : void {
+    this.episodeService.addEpisodes(showId, page).subscribe(episodes => console.log("retreieved episodes: ", episodes));
   }
 
   deleteEpisode(showId: number) : void {
